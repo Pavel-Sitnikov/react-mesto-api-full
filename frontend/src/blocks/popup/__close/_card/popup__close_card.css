@@ -1,0 +1,6 @@
+.popup__close_card {
+	position: relative;
+	align-self: flex-end;
+	flex-shrink: 0;
+	top: -10px;
+}

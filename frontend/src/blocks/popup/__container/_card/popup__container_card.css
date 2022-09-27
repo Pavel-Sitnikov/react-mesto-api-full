@@ -1,0 +1,10 @@
+.popup__container_card {
+  width: auto;
+  height: 100%;
+  max-width: 75vw;
+  max-height: 75vh;
+  padding: 0;
+  margin: 0 auto;
+  border-radius: 0;
+  background-color: initial;
+}

@@ -1,0 +1,6 @@
+.popup__auth-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+}

@@ -1,0 +1,14 @@
+.element {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+@media screen and (max-width: 423px) {
+  .element {
+    max-width: 282px;
+  }
+}
