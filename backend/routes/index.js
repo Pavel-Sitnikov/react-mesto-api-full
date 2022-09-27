@@ -8,6 +8,7 @@ const { login, createUser } = require('../controllers/users');
 const NotFoundError = require('../errors/NotFoundError');
 
 const auth = require('../middlewares/auth');
+const { requestLogger, errorLogger } = require('../middlewares/logger');
 
 const userRouter = require('./users');
 const cardRouter = require('./cards');
@@ -15,6 +16,8 @@ const cardRouter = require('./cards');
 const regex = require('../utils/validateUrl');
 
 router.use(cookieParser());
+
+router.use(requestLogger);
 
 router.post('/signup', express.json(), celebrate({
   body: Joi.object().keys({
@@ -37,6 +40,8 @@ router.use(auth);
 
 router.use(userRouter);
 router.use(cardRouter);
+
+router.use(errorLogger);
 
 router.use((req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
