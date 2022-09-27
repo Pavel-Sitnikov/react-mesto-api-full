@@ -33,26 +33,54 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState("");
   const [authMessage, setAuthMessage] = useState(false);
+  const [email, setEmail] = useState("");
   const history = useHistory();
 
+  //***************** Переписал */
+  // useEffect(() => {
+  //   api
+  //     .getUserData()
+  //     .then((res) => {
+  //       setCurrentUser(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   api
+  //     .getCards()
+  //     .then((res) => {
+  //       setCards(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  useEffect(() =>{
+    api.getUserData()
+    .then((data) => {
+      setCurrentUser(data);
+      setEmail(data.email);
+      setLoggedIn(true);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }, [loggedIn, history]);
+
   useEffect(() => {
-    api
-      .getUserData()
-      .then((res) => {
-        setCurrentUser(res);
+    if (loggedIn) {
+      history.push("/");
+
+      api.getCards()
+      .then((cards) => {
+        setCards(cards);
       })
-      .catch((err) => {
+      .catch((err) =>{
         console.log(err);
       });
-    api
-      .getCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    }
+  }, [loggedIn, history]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -140,26 +168,26 @@ function App() {
       });
   }
 
-  function checkToken() {
-    const jwt = localStorage.getItem("jwt");
-    if (!jwt) {
-      return;
-    }
+  // function checkToken() {
+  //   const jwt = localStorage.getItem("jwt");
+  //   if (!jwt) {
+  //     return;
+  //   }
 
-    return auth
-      .getContent(jwt)
-      .then((res) => {
-        setUserInfo(res.data.email);
-        setLoggedIn(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  //   return auth
+  //     .getContent(jwt)
+  //     .then((res) => {
+  //       setUserInfo(res.data.email);
+  //       setLoggedIn(true);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
-  useEffect(() => {
-    checkToken();
-  }, []);
+  // useEffect(() => {
+  //   checkToken();
+  // }, []);
 
   function onRegister(data) {
     return auth
@@ -189,15 +217,15 @@ function App() {
       });
   }
 
-  useEffect(() => {
-    if (loggedIn) {
-      history.push("/");
-    }
-  }, [loggedIn, history]);
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     history.push("/");
+  //   }
+  // }, [loggedIn, history]);
 
   function onLogout() {
+    return auth.
     setLoggedIn(false);
-    localStorage.removeItem("jwt");
     history.push("/signin");
   }
 

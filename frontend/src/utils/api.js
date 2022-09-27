@@ -16,18 +16,21 @@ export class Api {
 
   getUserData() {
     return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
       headers: this._headers,
     }).then(this._confirmStatus);
   }
 
   getCards() {
     return fetch(`${this._url}/cards`, {
+      credentials: 'include',
       headers: this._headers,
     }).then(this._confirmStatus);
   }
 
   editProfile(data) {
     return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -39,6 +42,7 @@ export class Api {
 
   addCard(data) {
     return fetch(`${this._url}/cards`, {
+      credentials: 'include',
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
@@ -50,6 +54,7 @@ export class Api {
 
   toggleLike(_id, isLiked) {
     return fetch(`${this._url}/cards/${_id}/likes`, {
+      credentials: 'include',
       method: `${isLiked ? "DELETE" : "PUT"}`,
       headers: this._headers,
     }).then(this._confirmStatus);
@@ -57,6 +62,7 @@ export class Api {
 
   deleteCard(_id) {
     return fetch(`${this._url}/cards/${_id}`, {
+      credentials: 'include',
       method: "DELETE",
       headers: this._headers,
     }).then(this._confirmStatus);
@@ -64,6 +70,7 @@ export class Api {
 
   editProfileAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
+      credentials: 'include',
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({

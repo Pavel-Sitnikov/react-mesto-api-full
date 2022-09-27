@@ -20,6 +20,7 @@ export function register({ email, password }) {
 
 export function authorize({ email, password }) {
   return fetch(`${BASE_URL}/signin`, {
+    credentials: "include",
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,12 +32,23 @@ export function authorize({ email, password }) {
   }).then((res) => checkResponse(res));
 }
 
-export function getContent(token) {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+// export function getContent(token) {
+//   return fetch(`${BASE_URL}/users/me`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       authorization: `Bearer ${token}`,
+//     },
+//   }).then((res) => checkResponse(res));
+// }
+
+export function logout(res) {
+  return fetch(`${BASE_URL}/signout`, {
+    credentials: "include",
+    method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkResponse(res));
+    }
+  })
+  .then((res) => checkResponse(res));
 }
