@@ -33,34 +33,13 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState("");
   const [authMessage, setAuthMessage] = useState(false);
-  const [email, setEmail] = useState("");
   const history = useHistory();
-
-  //***************** Переписал */
-  // useEffect(() => {
-  //   api
-  //     .getUserData()
-  //     .then((res) => {
-  //       setCurrentUser(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   api
-  //     .getCards()
-  //     .then((res) => {
-  //       setCards(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   useEffect(() =>{
     api.getUserData()
     .then((data) => {
       setCurrentUser(data);
-      setEmail(data.email);
+      setUserInfo(data.email);
       setLoggedIn(true);
     })
     .catch((err) => {
@@ -107,7 +86,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser?._id);
+    const isLiked = card.likes.some((i) => i === currentUser?._id);
 
     api
       .toggleLike(card._id, isLiked)
@@ -168,27 +147,6 @@ function App() {
       });
   }
 
-  // function checkToken() {
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (!jwt) {
-  //     return;
-  //   }
-
-  //   return auth
-  //     .getContent(jwt)
-  //     .then((res) => {
-  //       setUserInfo(res.data.email);
-  //       setLoggedIn(true);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   checkToken();
-  // }, []);
-
   function onRegister(data) {
     return auth
       .register(data)
@@ -208,25 +166,24 @@ function App() {
     return auth
       .authorize(data)
       .then((res) => {
-        localStorage.setItem("jwt", res.token);
         setLoggedIn(true);
         setUserInfo(data.email);
+        return res;
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     history.push("/");
-  //   }
-  // }, [loggedIn, history]);
-
   function onLogout() {
-    return auth.
-    setLoggedIn(false);
-    history.push("/signin");
+    return auth.logout()
+    .then(() => {
+      setLoggedIn(false);
+      history.push("/signin");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   return (
@@ -253,16 +210,11 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
           />
-          <ProtectedRoute
-            exact
-            path="/"
-            component={Footer}
-            loggedIn={loggedIn}
-          />
           <Route>
             {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
-          </Route>
+          </Route>          
         </Switch>
+        <Footer />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

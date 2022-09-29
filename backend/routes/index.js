@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const cookieParser = require('cookie-parser');
 
-const { login, createUser } = require('../controllers/users');
+const { login, createUser, logout } = require('../controllers/users');
 
 const NotFoundError = require('../errors/NotFoundError');
 
@@ -35,6 +35,8 @@ router.post('/signin', express.json(), celebrate({
     password: Joi.string().required(),
   }),
 }), login);
+
+router.get('/signout', logout);
 
 router.use(auth);
 

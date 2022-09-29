@@ -137,10 +137,20 @@ const login = async (req, res, next) => {
     await res.cookie('jwt', token, {
       maxAge: 360000 * 24 * 7,
       httpOnly: true,
-      sameSite: true,
+      sameSite: 'None',
+      Secure: true,
     });
 
     return res.send(user);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie('jwt');
+    return res.send();
   } catch (err) {
     return next(err);
   }
@@ -154,4 +164,5 @@ module.exports = {
   editProfile,
   editAvatar,
   login,
+  logout,
 };

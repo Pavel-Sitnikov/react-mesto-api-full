@@ -32,23 +32,14 @@ export function authorize({ email, password }) {
   }).then((res) => checkResponse(res));
 }
 
-// export function getContent(token) {
-//   return fetch(`${BASE_URL}/users/me`, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       authorization: `Bearer ${token}`,
-//     },
-//   }).then((res) => checkResponse(res));
-// }
-
-export function logout(res) {
+export function logout() {
   return fetch(`${BASE_URL}/signout`, {
-    credentials: "include",
-    method: "DELETE",
+    credentials: 'include',
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     }
   })
-  .then((res) => checkResponse(res));
-}
+  .catch((res) => checkResponse(res));
+};
+
