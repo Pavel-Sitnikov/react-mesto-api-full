@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 const User = require('../models/user');
 
 const CREATED = require('../utils/constants');
@@ -132,7 +134,7 @@ const login = async (req, res, next) => {
       return next(new UnauthorizedError('Неверный email или пароль'));
     }
 
-    const token = await jwt.sign({ _id: user._id }, 'some-secret-key');
+    const token = await jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key');
 
     await res.cookie('jwt', token, {
       maxAge: 360000 * 24 * 7,
