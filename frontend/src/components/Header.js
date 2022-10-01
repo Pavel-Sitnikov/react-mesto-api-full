@@ -13,7 +13,7 @@ function Header({ email, onLogout }) {
       <nav className="header__links">
         {/* <p className="header__email">{email}</p> */}
         <Route exact path="/">
-            <p className="header__email">{email}</p>
+          <p className="header__email">{email}</p>
           <Link className="header__logout" to="/singin" onClick={onLogout}>
             Выйти
           </Link>

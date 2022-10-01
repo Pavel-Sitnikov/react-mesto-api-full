@@ -39,8 +39,9 @@ function App() {
     api.getUserData()
     .then((data) => {
       setCurrentUser(data);
-      setUserInfo(data.email);
       setLoggedIn(true);
+      setUserInfo(data.email);
+      history.push("/");
     })
     .catch((err) => {
       console.log(err);
