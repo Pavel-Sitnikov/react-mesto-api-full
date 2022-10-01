@@ -189,7 +189,7 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header onLogout={onLogout} email={userInfo} />
+        <Header loggedIn={loggedIn} onLogout={onLogout} email={userInfo} />
         <Switch>
           <Route path="/signup">
             <Register onRegister={onRegister} />
