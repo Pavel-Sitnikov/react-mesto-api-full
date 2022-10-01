@@ -10,9 +10,11 @@ function Header({ email, onLogout }) {
         src={logoHeader}
         alt="Логотип Mesto Russia"
       />
-      <nav className="header__links">
-        <p className="header__email">{email}</p>
+      {/* <nav className="header__links">
+        <p className="header__email">{email}</p> */}
         <Route exact path="/">
+          <nav className="header__links" />
+            <p className="header__email">{email}</p>
           <Link className="header__logout" to="/singin" onClick={onLogout}>
             Выйти
           </Link>
